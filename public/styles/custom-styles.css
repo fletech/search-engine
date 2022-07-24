@@ -1,0 +1,9 @@
+div.content {
+  height: auto;
+  width: 100%;
+}
+
+.my-unique-plugin-wrapper-class {
+  padding: 10%;
+  background-color: #17252a;
+}

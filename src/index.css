@@ -1,0 +1,52 @@
+@import url(../public/styles/custom-styles.css);
+
+#kubio .content ::before,
+#kubio .content ::after {
+  all: revert;
+}
+
+#section-plugin.wp-block-kubio-section,
+#section-plugin .wp-block-kubio-section__inner,
+#section-plugin .wp-block-kubio-section__container,
+#section-plugin .wp-block-kubio-column,
+#section-plugin .wp-block-kubio-column__inner,
+#section-plugin .wp-block-kubio-column__container,
+#section-plugin .wp-block-kubio-row,
+#section-plugin .wp-block-kubio-row__inner,
+#section-plugin .wp-block-kubio-row__container,
+#section-plugin .d-flex,
+#section-plugin .h-col-lg-auto,
+#section-plugin .h-col-md-auto,
+#section-plugin .h-col-auto {
+  all: unset;
+}
+
+#section-plugin {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+html,
+body {
+  padding: 0;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+.my-unique-plugin-wrapper-class {
+  @tailwind base;
+  @tailwind components;
+  @tailwind utilities;
+}
