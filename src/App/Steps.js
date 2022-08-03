@@ -13,7 +13,7 @@ const Steps = () => {
   // }, [backStep]);
 
   return (
-    <div className="relative flex flex-col items-center justify-between w-full h-auto bg-black">
+    <main className="relative flex flex-col items-center justify-between w-full h-auto bg-black">
       <Navigation />
 
       {shownComponent == COMPONENT && (
@@ -29,15 +29,16 @@ const Steps = () => {
                   <ButtonCustom
                     key={i}
                     type="buttonSteps"
+                    filterType={strapiData.steps[step][option].filter_type}
                     content={strapiData.steps[step][option].content}
-                    nextStep={strapiData.steps[step][option].nextStep}
+                    next={strapiData.steps[step][option].next}
                   />
                 );
               })}
           </div>
         </>
       )}
-    </div>
+    </main>
   );
 };
 export default Steps;
