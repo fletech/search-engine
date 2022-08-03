@@ -21,9 +21,9 @@ const SearchResults = () => {
           }`}
         >
           {loadingData ? (
-            <div className="flex items-center justify-evenly border border-2 border-gray-300 rounded-sm p-10 bg-gray-100">
+            <div className="flex items-center justify-evenly border border-2 border-gray-300 rounded-sm p-6 bg-gray-100">
               <Spinner />
-              <span className="text-black">Loading best results</span>
+              <span className="text-black text-2xl">Loading best results</span>
             </div>
           ) : (
             <span className="text-primary">Results</span>
