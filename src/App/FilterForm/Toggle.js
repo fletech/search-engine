@@ -40,14 +40,15 @@ const Toggle = ({ filterContent, searchKey, align }) => {
   return (
     <div
       onClick={() => setValue(!value)}
-      className={`flex flex-col w-auto relative justify-between items-${align} cursor-pointer`}
+      className={
+        align &&
+        `flex flex-col w-auto relative justify-between items-${align} cursor-pointer`
+      }
     >
       <span className="font-semibold text-xl text-white uppercase">
         {filterContent.label}
       </span>
-      <div
-        className={`rounded-full w-auto relative flex flex-col justify-center items-${align}`}
-      >
+      <div className="rounded-full w-auto relative flex flex-col justify-center items-end">
         <div className={isReady && STATUS_STYLE[value].container}></div>
         <div className={isReady && STATUS_STYLE[value].dot}></div>
       </div>

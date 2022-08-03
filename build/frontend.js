@@ -3181,11 +3181,11 @@ const Toggle = _ref => {
   }, [value]);
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     onClick: () => setValue(!value),
-    className: `flex flex-col w-auto relative justify-between items-${align} cursor-pointer`
+    className: align && `flex flex-col w-auto relative justify-between items-${align} cursor-pointer`
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("span", {
     className: "font-semibold text-xl text-white uppercase"
   }, filterContent.label), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
-    className: `rounded-full w-auto relative flex flex-col justify-center items-${align}`
+    className: "rounded-full w-auto relative flex flex-col justify-center items-end"
   }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: isReady && STATUS_STYLE[value].container
   }), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
