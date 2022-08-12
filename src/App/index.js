@@ -1,4 +1,5 @@
 import Steps from "./Steps";
+import DevicePicker from "./DevicePicker";
 import Filters from "./Filters";
 import SearchResults from "./SearchResults";
 import { SearchEngineProvider } from "../context/SearchEngineContext";
@@ -9,6 +10,7 @@ function App() {
       <React.StrictMode>
         <SearchEngineProvider>
           <Steps />
+          <DevicePicker />
           <Filters />
           <SearchResults />
         </SearchEngineProvider>

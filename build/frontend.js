@@ -2489,6 +2489,7 @@ const BUTTON_HANDLER = (type, filterType, next, states) => {
     buttonSteps() {
       const {
         step,
+        setBackComponent,
         setBackStep,
         setEntry,
         setFilter,
@@ -2499,30 +2500,67 @@ const BUTTON_HANDLER = (type, filterType, next, states) => {
 
       if (next?.filter) {
         const FILTER_MODEL = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.getFilterModel)(_strapiData__WEBPACK_IMPORTED_MODULE_2__.FILTERS, filterType, strapiData.filter.model);
+        console.log(FILTER_MODEL);
         setFilter(FILTER_MODEL);
+        setBackComponent("steps");
         setShownComponent("filters");
       }
 
+      if (next?.select_phone || next?.select_tablet || next?.help_select_device) {
+        console.log(_strapiData__WEBPACK_IMPORTED_MODULE_2__.FILTERS, filterType); // setFilter(FILTER_MODEL);
+
+        setBackComponent("steps");
+        setShownComponent("devicePicker");
+      } // if (next?.select_tablet) {
+      //   console.log(FILTERS, filterType);
+      //   // setFilter(FILTER_MODEL);
+      //   setShownComponent("devicePicker");
+      // }
+      // if (next?.help_select_device) {
+      //   console.log(FILTERS, filterType);
+      //   // setFilter(FILTER_MODEL);
+      //   setShownComponent("devicePicker");
+      // }
+
+
+      setBackComponent("steps");
       setBackStep(prevState => [...prevState, step]);
       setEntry(false);
-      setStep(next.step);
+      setStep(next.step); //TODO: al terminar de elegir un hardware, se pasa al buttonCustom, la prop next={filter:true} y filter_type="el que aplique según el tipo de hardware"
     },
 
-    filters() {
+    devicePicker() {
       const {
+        setBackComponent,
         setData,
         searchBody,
         setShownComponent,
         setLoadingData
       } = states;
       console.log(searchBody);
-      (0,_fetchApi__WEBPACK_IMPORTED_MODULE_0__.fetchAPI)("https://jsonplaceholder.typicode.com/todos", setData, setLoadingData);
+      (0,_fetchApi__WEBPACK_IMPORTED_MODULE_0__.fetchAPI)("https://mobilexpert-server.herokuapp.com/api/subscriptions", setData, setLoadingData);
+      setBackComponent("devicePicker");
+      setShownComponent("searchResults");
+    },
+
+    filters() {
+      const {
+        setBackComponent,
+        setData,
+        searchBody,
+        setShownComponent,
+        setLoadingData
+      } = states;
+      console.log(searchBody);
+      (0,_fetchApi__WEBPACK_IMPORTED_MODULE_0__.fetchAPI)("https://mobilexpert-server.herokuapp.com/api/subscriptions", setData, setLoadingData);
+      setBackComponent("filters");
       setShownComponent("searchResults");
     },
 
     back() {
       const {
         backStep,
+        backComponent,
         setBackStep,
         setStep,
         setEntry,
@@ -2536,13 +2574,13 @@ const BUTTON_HANDLER = (type, filterType, next, states) => {
       });
 
       if (shownComponent == "searchResults") {
-        setShownComponent("filters");
+        setShownComponent(backComponent);
         setSearchBody(prevState => ({ ...prevState
         }));
         setBackToFilter(true);
       }
 
-      if (shownComponent == "filters") {
+      if (shownComponent == "filters" || shownComponent == "devicePicker") {
         setShownComponent("steps");
         setBackStep(previous_steps);
         setSearchBody({});
@@ -2595,12 +2633,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
-const fetchAPI = async (url, setData, callback) => {
+const fetchAPI = async (url, setState, callback) => {
   callback(true);
 
   try {
     const RESPONSE = await axios__WEBPACK_IMPORTED_MODULE_0___default().get(url);
-    setData(RESPONSE.data);
+    setState(RESPONSE.data.data);
+    callback(false);
+    console.log(RESPONSE.data.data);
   } catch (error) {
     if (error.response) {
       // The request was made and the server responded with a status code
@@ -2619,11 +2659,10 @@ const fetchAPI = async (url, setData, callback) => {
     }
 
     console.log(error.config);
-  }
+  } // setTimeout(() => {
+  //   callback(false);
+  // }, 4000);
 
-  setTimeout(() => {
-    callback(false);
-  }, 4000);
 };
 
 /***/ }),
@@ -2714,35 +2753,35 @@ const DATA_CONTENT = {
       select_phone: {
         content: "Select phone",
         next: {
-          filter: true
+          select_phone: true
         },
         filter_type: "select_phone"
       },
       help_me_choose: {
         content: "Help me choose phone / tablet",
         next: {
-          filter: true
+          help_select_device: true
         },
-        filter_type: "select_phone_assisted"
+        filter_type: "help_select_device"
       }
     },
     step3_other_hardware: {
       heading: "Router o tablet?",
       options: ["router", "tablet"],
       back_to: "step2_hardware",
+      tablet: {
+        content: "Tablet",
+        next: {
+          select_tablet: true
+        },
+        filter_type: "select_tablet"
+      },
       router: {
         content: "Router",
         next: {
           filter: true
         },
         filter_type: "router"
-      },
-      tablet: {
-        content: "Tablet",
-        next: {
-          filter: true
-        },
-        filter_type: "select_tablet_assisted"
       }
     }
   },
@@ -2781,46 +2820,82 @@ const DATA_CONTENT = {
         default: true
       }
     }
-  } // results: [
-  //   {
-  //     userId: 1,
-  //     id: 1,
-  //     title: "delectus aut autem",
-  //     completed: false,
-  //   },
-  //   {
-  //     userId: 1,
-  //     id: 2,
-  //     title: "quis ut nam facilis et officia qui",
-  //     completed: false,
-  //   },
-  //   {
-  //     userId: 1,
-  //     id: 3,
-  //     title: "fugiat veniam minus",
-  //     completed: false,
-  //   },
-  //   {
-  //     userId: 1,
-  //     id: 4,
-  //     title: "et porro tempora",
-  //     completed: true,
-  //   },
-  //   {
-  //     userId: 1,
-  //     id: 5,
-  //     title: "laboriosam mollitia et enim quasi adipisci quia provident illum",
-  //     completed: false,
-  //   },
-  // ],
-
+  },
+  devicePicker: {
+    heading: "Pick your device",
+    cta: "Search",
+    model: {
+      search: {
+        label: "Search",
+        placeholder: "Enter keywords"
+      },
+      help_sizes: {
+        options: ["Small", "Medium", "Large"]
+      },
+      help_costs: {
+        options: ["Cheap", "Mid-range", "High-end"]
+      },
+      help_payment_types: {
+        options: ["Cash", "Payment plan"]
+      },
+      sizes: {
+        label: "Size",
+        options: ["All", "Small", "Medium", "Large"],
+        default: "All"
+      },
+      costs: {
+        label: "Cost",
+        options: ["All", "Cheap", "Mid-range", "High-end"],
+        default: "All"
+      },
+      brands: {
+        label: "Brand",
+        options: ["All", "Apple", "Samsung", "Motorola", "Xiaomi"],
+        default: "All"
+      },
+      tablet_brands: {
+        label: "Brand",
+        options: ["All", "Apple", "Samsung", "High-end"],
+        default: "All"
+      },
+      payment_types: {
+        label: "Payment type",
+        options: ["All", "Cash", "Payment plan"],
+        default: "All"
+      },
+      next: {
+        select_phone: {
+          content: "Search subscriptions",
+          next: {
+            filter: true
+          },
+          filter_type: "mobile_subscription"
+        },
+        select_tablet: {
+          content: "Search subscriptions",
+          next: {
+            filter: true
+          },
+          filter_type: "mobile_subscription"
+        },
+        help_select_device: {
+          //TODO: ver que hacer para que despues de filtrar los posibles dispositivos, para que caiga a la selección de teléfonos o tablet, con los campos ya cargados.
+          content: "Search devices",
+          next: {
+            filter: true
+          },
+          filter_type: "mobile_subscription"
+        }
+      }
+    }
+  }
 };
 const FILTERS = {
   mobile_broadband_subscription: ["data_amount", "services", "carriers", "network_5G"],
   mobile_subscription: ["data_amount", "services", "talk_minutes", "network_5G", "roaming"],
-  select_phone: ["data_amount", "services", "carriers", "network_5G", "roaming"],
-  select_phone_assisted: ["data_amount", "services", "carriers", "network_5G"],
-  select_tablet_assisted: ["data_amount", "services", "carriers", "network_5G"],
+  help_select_device: ["help_sizes", "help_costs", "help_payment_types"],
+  select_phone: ["search", "sizes", "costs", "brands", "payment_types"],
+  select_tablet: ["search", "sizes", "costs", "tablet_brands", "payment_types"],
   router: ["data_amount", "services", "carriers", "network_5G"]
 };
 
@@ -2942,6 +3017,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const CLASSNAME = {
   buttonSteps: "w-1/3 min-h-[4rem] h-auto p-4 text-black font-bold text-[16px] uppercase tracking-[1px] bg-primary hover:bg-primaryHover rounded-md ",
+  devicePicker: "w-1/3 min-h-[4rem] h-auto p-4 text-black font-bold text-[16px] uppercase tracking-[1px] bg-primary hover:bg-primaryHover rounded-md",
   filters: "w-1/3 min-h-[4rem] h-auto p-4 text-black font-bold text-[16px] uppercase tracking-[1px] bg-primary hover:bg-primaryHover rounded-md",
   back: "absolute -top-10 lg:-top-20 left-0 w-auto h-[3rem] text-white font-bold text-[14px] uppercase tracking-[1px]  text-primary ",
   clear: "absolute -top-10 lg:-top-20 right-0 w-auto h-[3rem] text-white font-bold text-[14px] uppercase tracking-[1px]  text-primary "
@@ -2965,6 +3041,90 @@ const ButtonCustom = _ref => {
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (ButtonCustom);
+
+/***/ }),
+
+/***/ "./src/App/DevicePicker.js":
+/*!*********************************!*\
+  !*** ./src/App/DevicePicker.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _ButtonCustom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./ButtonCustom */ "./src/App/ButtonCustom.js");
+/* harmony import */ var _context_SearchEngineContext__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../context/SearchEngineContext */ "./src/context/SearchEngineContext.js");
+/* harmony import */ var _DevicePickerForm__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./DevicePickerForm */ "./src/App/DevicePickerForm/index.js");
+
+
+
+
+
+
+const DevicePicker = () => {
+  const COMPONENT = "devicePicker";
+  const states = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_context_SearchEngineContext__WEBPACK_IMPORTED_MODULE_3__["default"]);
+  const {
+    shownComponent,
+    setShownComponent,
+    strapiData
+  } = states;
+  return shownComponent == COMPONENT && (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("main", {
+    className: "w-full flex flex-col justify-center items-center"
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DevicePickerForm__WEBPACK_IMPORTED_MODULE_4__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_ButtonCustom__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    type: "devicePicker",
+    shownComponent: shownComponent,
+    setShownComponent: setShownComponent,
+    content: strapiData.filter.cta
+  }));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DevicePicker);
+
+/***/ }),
+
+/***/ "./src/App/DevicePickerForm/index.js":
+/*!*******************************************!*\
+  !*** ./src/App/DevicePickerForm/index.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
+/* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _context_SearchEngineContext__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../context/SearchEngineContext */ "./src/context/SearchEngineContext.js");
+
+
+
+
+const DevicePickerForm = () => {
+  const states = (0,react__WEBPACK_IMPORTED_MODULE_1__.useContext)(_context_SearchEngineContext__WEBPACK_IMPORTED_MODULE_2__["default"]);
+  const {
+    strapiData,
+    filter,
+    searchBody
+  } = states;
+  return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
+    className: " tracking-[1px] font-semibold text-4xl  mb-10 text-white capitalize"
+  }, strapiData.devicePicker.heading), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+    className: `my-6 w-full min-h-[10vh] h-auto flex flex-col items-center justify-center`
+  }));
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (DevicePickerForm);
 
 /***/ }),
 
@@ -3402,7 +3562,7 @@ const SearchResults = () => {
     className: "text-primary"
   }, "Results")), !loadingData && data.map(result => (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", {
     className: "capitalize tracking-[1px] text-left font-semibold text-2xl  my-6 text-white first:mt-0 last:mb-0"
-  }, result.title)));
+  }, result.attributes.plan_name)));
 };
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (SearchResults);
@@ -3479,9 +3639,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/element */ "@wordpress/element");
 /* harmony import */ var _wordpress_element__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_element__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Steps__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Steps */ "./src/App/Steps.js");
-/* harmony import */ var _Filters__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Filters */ "./src/App/Filters.js");
-/* harmony import */ var _SearchResults__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SearchResults */ "./src/App/SearchResults.js");
-/* harmony import */ var _context_SearchEngineContext__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../context/SearchEngineContext */ "./src/context/SearchEngineContext.js");
+/* harmony import */ var _DevicePicker__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./DevicePicker */ "./src/App/DevicePicker.js");
+/* harmony import */ var _Filters__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Filters */ "./src/App/Filters.js");
+/* harmony import */ var _SearchResults__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./SearchResults */ "./src/App/SearchResults.js");
+/* harmony import */ var _context_SearchEngineContext__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../context/SearchEngineContext */ "./src/context/SearchEngineContext.js");
+
 
 
 
@@ -3491,7 +3653,7 @@ __webpack_require__.r(__webpack_exports__);
 function App() {
   return (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
     className: "content"
-  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(React.StrictMode, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_context_SearchEngineContext__WEBPACK_IMPORTED_MODULE_4__.SearchEngineProvider, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Steps__WEBPACK_IMPORTED_MODULE_1__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Filters__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SearchResults__WEBPACK_IMPORTED_MODULE_3__["default"], null))));
+  }, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(React.StrictMode, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_context_SearchEngineContext__WEBPACK_IMPORTED_MODULE_5__.SearchEngineProvider, null, (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Steps__WEBPACK_IMPORTED_MODULE_1__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_DevicePicker__WEBPACK_IMPORTED_MODULE_2__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_Filters__WEBPACK_IMPORTED_MODULE_3__["default"], null), (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.createElement)(_SearchResults__WEBPACK_IMPORTED_MODULE_4__["default"], null))));
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (App);
@@ -3578,6 +3740,7 @@ const SEARCH_BODY = {
 const States = () => {
   const [backStep, setBackStep] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(Array);
   const [backToFilter, setBackToFilter] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const [backComponent, setBackComponent] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)("");
   const [data, setData] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [entry, setEntry] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
   const [filter, setFilter] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)();
@@ -3589,6 +3752,7 @@ const States = () => {
   const STATES = {
     backStep,
     backToFilter,
+    backComponent,
     data,
     entry,
     filter,
@@ -3599,6 +3763,7 @@ const States = () => {
     strapiData,
     setBackStep,
     setBackToFilter,
+    setBackComponent,
     setData,
     setEntry,
     setFilter,

@@ -13,6 +13,7 @@ const SEARCH_BODY = {
 const States = () => {
   const [backStep, setBackStep] = useState(Array);
   const [backToFilter, setBackToFilter] = useState(false);
+  const [backComponent, setBackComponent] = useState("");
   const [data, setData] = useState([]);
   const [entry, setEntry] = useState(true);
   const [filter, setFilter] = useState();
@@ -25,6 +26,7 @@ const States = () => {
   const STATES = {
     backStep,
     backToFilter,
+    backComponent,
     data,
     entry,
     filter,
@@ -35,6 +37,7 @@ const States = () => {
     strapiData,
     setBackStep,
     setBackToFilter,
+    setBackComponent,
     setData,
     setEntry,
     setFilter,

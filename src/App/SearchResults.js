@@ -32,7 +32,7 @@ const SearchResults = () => {
         {!loadingData &&
           data.map((result) => (
             <h1 className="capitalize tracking-[1px] text-left font-semibold text-2xl  my-6 text-white first:mt-0 last:mb-0">
-              {result.title}
+              {result.attributes.plan_name}
             </h1>
           ))}
       </div>
