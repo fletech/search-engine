@@ -6,16 +6,28 @@ import DevicePickerForm from "./DevicePickerForm";
 const DevicePicker = () => {
   const COMPONENT = "devicePicker";
   const states = useContext(SearchEngineContext);
-  const { shownComponent, setShownComponent, strapiData } = states;
+  const {
+    shownComponent,
+    strapiData,
+    devicePicker,
+    devicePickerStep,
+    devicePickerType,
+  } = states;
+  console.log(devicePickerType);
   return (
     shownComponent == COMPONENT && (
       <main className="w-full flex flex-col justify-center items-center">
-        <DevicePickerForm />
+        {devicePickerType == "help_select_phone" ||
+        devicePickerType == "help_select_tablet" ? (
+          <DevicePickerForm />
+        ) : (
+          ""
+        )}
+
         <ButtonCustom
+          hidden={devicePickerStep == "payment_types" ? false : true}
           type="devicePicker"
-          shownComponent={shownComponent}
-          setShownComponent={setShownComponent}
-          content={strapiData.filter.cta}
+          content={strapiData.devicePicker.cta}
         />
       </main>
     )

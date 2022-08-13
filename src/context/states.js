@@ -10,11 +10,30 @@ const SEARCH_BODY = {
   roaming: {},
 };
 
+const DEVICE_PICKER_BODY = {
+  size: {
+    all: true,
+    selected: [],
+  },
+  cost: {
+    all: true,
+    selected: [],
+  },
+  payment_method: {
+    all: true,
+    selected: [],
+  },
+};
+
 const States = () => {
   const [backStep, setBackStep] = useState(Array);
   const [backToFilter, setBackToFilter] = useState(false);
   const [backComponent, setBackComponent] = useState("");
   const [data, setData] = useState([]);
+  const [devicePicker, setDevicePicker] = useState();
+  const [devicePickerBody, setDevicePickerBody] = useState({});
+  const [devicePickerStep, setDevicePickerStep] = useState();
+  const [devicePickerType, setDevicePickerType] = useState();
   const [entry, setEntry] = useState(true);
   const [filter, setFilter] = useState();
   const [loadingData, setLoadingData] = useState(false);
@@ -28,6 +47,10 @@ const States = () => {
     backToFilter,
     backComponent,
     data,
+    devicePicker,
+    devicePickerBody,
+    devicePickerStep,
+    devicePickerType,
     entry,
     filter,
     loadingData,
@@ -39,6 +62,10 @@ const States = () => {
     setBackToFilter,
     setBackComponent,
     setData,
+    setDevicePicker,
+    setDevicePickerBody,
+    setDevicePickerStep,
+    setDevicePickerType,
     setEntry,
     setFilter,
     setLoadingData,

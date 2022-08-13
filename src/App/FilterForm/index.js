@@ -16,7 +16,7 @@ const FilterForm = () => {
         {strapiData.filter.heading}
       </h1>
       <div
-        className={`my-6 w-full min-h-[10vh] h-auto flex flex-col items-center justify-center`}
+        className={`my-2 w-full min-h-[10vh] h-auto flex flex-col items-center justify-center`}
       >
         <FormSection flexDirection={"flex-row"}>
           {filter.network_5G && (
