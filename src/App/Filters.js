@@ -4,16 +4,14 @@ import SearchEngineContext from "../context/SearchEngineContext";
 import FilterForm from "./FilterForm";
 
 const Filters = () => {
-  const COMPONENT = "filters";
   const states = useContext(SearchEngineContext);
-  const { shownComponent, strapiData } = states;
+  const { strapiData } = states;
+
   return (
-    shownComponent == COMPONENT && (
-      <main className="w-full flex flex-col justify-center items-center">
-        <FilterForm />
-        <ButtonCustom type="filters" content={strapiData.filter.cta} />
-      </main>
-    )
+    <main className=" relative h-auto w-full flex flex-col justify-between items-center ">
+      <FilterForm />
+      <ButtonCustom type="filters" content={strapiData.filter.cta} />
+    </main>
   );
 };
 export default Filters;

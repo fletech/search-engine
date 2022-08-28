@@ -10,32 +10,27 @@ const SEARCH_BODY = {
   roaming: {},
 };
 
-const DEVICE_PICKER_BODY = {
-  size: {
-    all: true,
-    selected: [],
-  },
-  cost: {
-    all: true,
-    selected: [],
-  },
-  payment_method: {
-    all: true,
-    selected: [],
-  },
+const PICKER_SEARCH_BODY = {
+  fromPicker: false,
+  search: "",
 };
 
 const States = () => {
-  const [backStep, setBackStep] = useState(Array);
+  const [backStep, setBackStep] = useState([]);
   const [backToFilter, setBackToFilter] = useState(false);
   const [backComponent, setBackComponent] = useState("");
   const [data, setData] = useState([]);
-  const [devicePicker, setDevicePicker] = useState();
-  const [devicePickerBody, setDevicePickerBody] = useState({});
-  const [devicePickerStep, setDevicePickerStep] = useState();
-  const [devicePickerType, setDevicePickerType] = useState();
+  const [devicePickerIsBack, setDevicePickerIsBack] = useState(false);
+  const [devicePickerModel, setDevicePickerModel] = useState({});
+  const [devicePickerSearchBody, setDevicePickerSearchBody] =
+    useState(PICKER_SEARCH_BODY);
+  const [devicePickerStep, setDevicePickerStep] = useState("");
+  const [devicePickerType, setDevicePickerType] = useState("");
+  const [deviceSelectOn, setDeviceSelectOn] = useState(false);
   const [entry, setEntry] = useState(true);
-  const [filter, setFilter] = useState();
+  const [errorForm, setErrorForm] = useState(false);
+  const [errorFormElements, setErrorFormElements] = useState([]);
+  const [filter, setFilter] = useState({});
   const [loadingData, setLoadingData] = useState(false);
   const [searchBody, setSearchBody] = useState({});
   const [shownComponent, setShownComponent] = useState("steps");
@@ -47,11 +42,15 @@ const States = () => {
     backToFilter,
     backComponent,
     data,
-    devicePicker,
-    devicePickerBody,
+    devicePickerIsBack,
+    devicePickerModel,
+    devicePickerSearchBody,
     devicePickerStep,
     devicePickerType,
+    deviceSelectOn,
     entry,
+    errorForm,
+    errorFormElements,
     filter,
     loadingData,
     searchBody,
@@ -62,11 +61,15 @@ const States = () => {
     setBackToFilter,
     setBackComponent,
     setData,
-    setDevicePicker,
-    setDevicePickerBody,
+    setDevicePickerIsBack,
+    setDevicePickerModel,
+    setDevicePickerSearchBody,
     setDevicePickerStep,
     setDevicePickerType,
+    setDeviceSelectOn,
     setEntry,
+    setErrorForm,
+    setErrorFormElements,
     setFilter,
     setLoadingData,
     setSearchBody,
