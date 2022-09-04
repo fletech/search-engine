@@ -17,9 +17,9 @@ const CLASSNAME = {
   error: "bg-gray-400 hover:bg-gray-300 cursor-not-allowed pointer-events-none",
   filters:
     "w-1/3 min-h-[4rem] h-auto p-4 text-black font-bold text-[16px] uppercase tracking-[1px] bg-primary hover:bg-primaryHover rounded-md",
-  back: "absolute -top-20 lg:-top-20 left-20 w-auto h-[3rem] font-regular text-[14px] uppercase tracking-[1px] text-blue-400 ",
+  back: "absolute -top-10 lg:-top-20 left-20 w-auto h-[3rem] font-regular text-[14px] uppercase tracking-[1px] text-blue-400 ",
   clear:
-    "absolute -top-20 lg:-top-20 right-20 w-auto h-[3rem] font-regular text-[14px] uppercase tracking-[1px] text-red-500 ",
+    "absolute -top-10 lg:-top-20 right-20 w-auto h-[3rem] font-regular text-[14px] uppercase tracking-[1px] text-red-500 ",
 };
 
 const ButtonCustom = ({

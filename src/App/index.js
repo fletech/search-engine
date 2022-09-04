@@ -26,7 +26,9 @@ function App() {
     <div className="content">
       <React.StrictMode>
         <Navigation />
-        {shownComponent && COMPONENTS[shownComponent]}
+        <main className="h-full w-full flex flex-col justify-center items-center ">
+          {shownComponent && COMPONENTS[shownComponent]}
+        </main>
       </React.StrictMode>
     </div>
   );

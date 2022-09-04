@@ -25,7 +25,7 @@ const DeviceSearch = () => {
   }, [devicePickerSearchBody]);
 
   return (
-    <main className=" relative h-auto w-full flex flex-col justify-center items-center">
+    <>
       <DeviceSearchForm />
 
       <ButtonCustom
@@ -34,7 +34,7 @@ const DeviceSearch = () => {
         type="deviceSearch"
         content={devicePickerModel.next[devicePickerType].cta}
       />
-    </main>
+    </>
   );
 };
 export default DeviceSearch;

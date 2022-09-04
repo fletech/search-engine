@@ -8,10 +8,10 @@ const Filters = () => {
   const { strapiData } = states;
 
   return (
-    <main className=" relative h-auto w-full flex flex-col justify-between items-center ">
+    <>
       <FilterForm />
       <ButtonCustom type="filters" content={strapiData.filter.cta} />
-    </main>
+    </>
   );
 };
 export default Filters;

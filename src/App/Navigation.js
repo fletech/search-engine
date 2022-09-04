@@ -8,7 +8,7 @@ const Navigation = () => {
   const { entry, strapiData } = states;
   return (
     !entry && (
-      <div className="relative w-full">
+      <div className="relative w-[80%]">
         <ButtonCustom
           type="back"
           content={strapiData.navigation.back.content}

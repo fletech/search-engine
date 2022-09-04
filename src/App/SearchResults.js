@@ -1,11 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import SearchEngineContext from "../context/SearchEngineContext";
 import Spinner from "./AuxComponents/spinner";
 
 const SearchResults = () => {
   const states = useContext(SearchEngineContext);
-  const { data, loadingData } = states;
+  const {
+    data,
+    loadingData,
+    searchBody,
+    devicePickerSearchBody,
+    backComponent,
+  } = states;
+  const [dataMatched, setDataMatched] = useState(data);
+
+  const filterData = (body, type) => {
+    // console.log(`${type}:`);
+    // console.log(body);
+    // console.table(body);
+  };
+
+  useEffect(() => {
+    backComponent == "deviceSearch" &&
+      filterData(devicePickerSearchBody, "device");
+
+    backComponent == "filters" && filterData(searchBody, "subscription");
+
+    console.log("data:"), console.log(data);
+  }, [devicePickerSearchBody, searchBody, data]);
 
   return (
     <div

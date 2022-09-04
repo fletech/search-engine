@@ -63,7 +63,7 @@ const DeviceSelectForm = () => {
       <h1 className=" tracking-[1px] font-semibold text-4xl  mb-10 text-white capitalize">
         {strapiData.devicePicker.select_heading}
       </h1>
-      <div className="flex items-center justify-around w-full my-[4rem]">
+      <div className="flex items-center justify-around w-full mb-[4rem]">
         {isReady &&
           LABELS(devicePickerType).map((objectKey, i) => {
             return (

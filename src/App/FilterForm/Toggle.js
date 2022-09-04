@@ -23,7 +23,6 @@ const Toggle = ({ filterContent, searchKey, align }) => {
   const [isReady, setIsReady] = useState();
 
   useEffect(() => {
-    console.log(backToFilter);
     const defaultValue = filterContent.default;
     const priorValue = searchBody[searchKey];
 
